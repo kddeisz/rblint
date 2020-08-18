@@ -23,9 +23,7 @@ module RbLint
     end
 
     SCANNER_EVENTS.each do |event|
-      define_method(:"on_#{event}") do |token|
-        [:"@#{event}", token]
-      end
+      define_method(:"on_#{event}") { |token| [:"@#{event}", token] }
     end
 
     PARSER_EVENT_TABLE.each do |event, arity|
@@ -34,9 +32,7 @@ module RbLint
       elsif /_add\z/ =~ event
         alias_method :"on_#{event}", :_dispatch_event_push
       else
-        define_method(:"on_#{event}") do |*args|
-          args.unshift(event)
-        end
+        define_method(:"on_#{event}") { |*args| args.unshift(event) }
       end
     end
 

@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+$:.unshift(File.expand_path('../lib', __dir__))
+require 'rblint'
+
+def run_tests(constant, contents)
+  contents.each do |content|
+    parser = RbLint::Parser.new(content)
+
+    parser.singleton_class.prepend(RbLint::Rules.const_get(constant))
+    parser.parse
+
+    if parser.error?
+      raise "Could not parse: #{content}"
+    elsif parser.violations.empty?
+      raise "Expected an #{constant} violation for #{content}"
+    end
+  end
+end
+
+current = []
+File.readlines(File.expand_path('../lib/rblint/rules.rb', __dir__)).each do |line|
+  if line.start_with?('    #') .. line.start_with?('    module')
+    case line
+    when /\#\s*\z/
+      current << []
+    when /\#\s{5}(.+)/
+      current[-1] << $1
+    when /\A\s{4}module (.+)\s*\z/
+      run_tests($1, current.tap(&:pop).map { |lines| lines.join("\n") })
+      current = []
+    end
+  end
+end
