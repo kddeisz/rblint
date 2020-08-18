@@ -7,7 +7,7 @@ module RbLint
     #     bar if foo = 1
     #
     module AssignmentInCondition
-      %i[case elsif if if_mod unless unless_mod until until_mod while while_mod].each do |event|
+      %i[case elsif if unless until while].each do |event|
         define_method(:"on_#{event}") do |predicate, *others|
           if %i[assign massign].include?(predicate[0])
             violation('Assignment found inside a condition.')
@@ -55,7 +55,7 @@ module RbLint
     #     foo if 1
     #
     module LiteralAsCondition
-      %i[case elsif if if_mod unless unless_mod until until_mod while while_mod].each do |event|
+      %i[case elsif if unless until while].each do |event|
         define_method(:"on_#{event}") do |predicate, *others|
           if literal?(predicate)
             violation('Literal found inside a condition.')

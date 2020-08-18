@@ -39,5 +39,16 @@ module RbLint
         end
       end
     end
+
+    def on_if_mod(predicate, statements)
+      on_if(predicate, statements, nil)
+    end
+
+    def on_unless_mod(predicate, statements)
+      on_unless(predicate, statements, nil)
+    end
+
+    alias_method :on_while_mod, :on_while
+    alias_method :on_until_mod, :on_until
   end
 end
