@@ -33,3 +33,5 @@ File.readlines(File.expand_path('../lib/rblint/rules.rb', __dir__)).each do |lin
     end
   end
 end
+
+puts 'All tests passed.'
