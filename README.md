@@ -1,6 +1,6 @@
 # rblint
 
-A linter for Ruby code.
+A linter for Ruby code. For an introduction to why this project exists, check out its associated [blog post](https://kevindeisz.com/2020/08/28/linting-ruby.html).
 
 ## Getting started
 
